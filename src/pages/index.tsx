@@ -235,21 +235,19 @@ export default function Home(): ReactNode {
                 <BellIcon className={styles.islandIcon} />
                 <h2 className={styles.islandTitle}>最新公告</h2>
               </div>
-              <ul className={styles.linkList}>
+              <div className={styles.newsList}>
                 {announcements.map((post) => (
-                  <li key={post.slug} className={styles.linkListItem}>
-                    <Link to={`/news/${post.slug}`} className={styles.announcementItem}>
-                      <span className={styles.announcementTitle}>{post.title}</span>
-                      <span className={styles.announcementDate}>{post.dateLabel}</span>
+                  <div key={post.slug} className={styles.newsItem}>
+                    <Link to={`/news/${post.slug}`} className={styles.newsTitle}>
+                      {post.title}
                     </Link>
-                  </li>
+                    <span className={styles.newsDate}>{post.dateLabel}</span>
+                  </div>
                 ))}
-                <li className={styles.linkListItem}>
-                  <Link to="/news" className={clsx(styles.linkItem, styles.announcementAll)}>
-                    查看全部公告 →
-                  </Link>
-                </li>
-              </ul>
+                <Link to="/news" className={styles.newsMore}>
+                  查看全部公告 →
+                </Link>
+              </div>
             </div>
             <SidebarIsland
               icon={<BookIcon className={styles.islandIcon} />}
