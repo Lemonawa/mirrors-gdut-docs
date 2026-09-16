@@ -1,0 +1,57 @@
+name: 📝 文档问题反馈
+description: 报告文档内容错误、配置命令失效、链接失效等问题
+labels: ['文档问题']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈文档问题！请填写以下信息，我们会尽快处理。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 简要说明文档中存在的问题
+      placeholder: 例如：某配置命令执行后报错 / 文档描述与实际行为不符 / 截图与当前页面不一致
+    validations:
+      required: true
+
+  - type: input
+    id: page-url
+    attributes:
+      label: 涉及的文档页面
+      description: 出现问题的文档页面链接（如 https://mirrors.gdut.edu.cn/help/docs/mirrors/ubuntu-help）
+      placeholder: https://mirrors.gdut.edu.cn/help/docs/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望的正确内容
+      description: 如果知道正确的配置或内容，请在此说明
+      placeholder: 例如：应使用 https://repo.gdut.edu.cn/repository/maven/ 而非旧地址
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤（可选）
+      description: 如果是配置命令问题，请提供执行步骤与报错信息
+      placeholder: |
+        1. 执行 `xxx` 命令
+        2. 出现以下报错：
+        ```
+        报错信息
+        ```
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认事项
+      options:
+        - label: 我已搜索现有 Issue，确认没有重复反馈
+          required: true
+        - label: 我访问的是最新版本的文档站点
+          required: true

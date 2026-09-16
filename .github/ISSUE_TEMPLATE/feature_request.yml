@@ -1,0 +1,46 @@
+name: 💡 新镜像 / 功能建议
+description: 请求新增镜像帮助文档，或建议改进文档站点功能
+labels: ['功能建议']
+body:
+  - type: dropdown
+    id: request-type
+    attributes:
+      label: 请求类型
+      options:
+        - 新镜像帮助文档
+        - 站点功能建议
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: subject
+    attributes:
+      label: 镜像名称或功能主题
+      description: 例如 "请求添加 Docker Compose 镜像帮助文档" 或 "代码块复制按钮优化"
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 详细说明
+      description: |
+        新镜像请求：请说明镜像的官方地址、上游仓库信息，以及你期望文档包含的配置方式（如 APT / YUM / pip 等）
+        功能建议：请描述期望的功能与使用场景
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: 参考资料（可选）
+      description: 相关的官方文档、其他镜像站的同类文档链接等
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认事项
+      options:
+        - label: 我已搜索现有 Issue，确认没有重复建议
+          required: true
