@@ -26,6 +26,8 @@ import {
   generateMavenPom,
   generateQuickConfig,
 } from './generators';
+import {useMirrorLineValue} from '@site/src/hooks/useMirrorDomain';
+import {applyMirrorDomainToText} from '@site/src/utils/mirrorDomain';
 import styles from './styles.module.css';
 
 const LANG_MAP: Record<MirrorType, string> = {
@@ -95,32 +97,39 @@ export default function MirrorSources(props: MirrorSourcesProps): ReactNode {
     [selectedVersion, https, source, proposed, security, sudo, globalSettings],
   );
 
+  const mirrorLine = useMirrorLineValue();
+
   const configText = useMemo(() => {
-    switch (type) {
-      case 'apt-traditional':
-        return generateAptTraditional(props, state);
-      case 'apt-deb822':
-        return generateAptDeb822(props, state);
-      case 'yum':
-        return generateYum(props, state);
-      case 'pacman':
-        return generatePacman(props, state);
-      case 'maven':
-        return generateMaven(props, state);
-      default:
-        return '';
-    }
-  }, [props, state, type]);
+    const generated = (() => {
+      switch (type) {
+        case 'apt-traditional':
+          return generateAptTraditional(props, state);
+        case 'apt-deb822':
+          return generateAptDeb822(props, state);
+        case 'yum':
+          return generateYum(props, state);
+        case 'pacman':
+          return generatePacman(props, state);
+        case 'maven':
+          return generateMaven(props, state);
+        default:
+          return '';
+      }
+    })();
+    return applyMirrorDomainToText(generated, mirrorLine);
+  }, [props, state, type, mirrorLine]);
 
   const quickConfigText = useMemo(() => {
     if (quickConfigType === 'none') return '';
-    return generateQuickConfig(props, state, configText);
-  }, [props, state, configText, quickConfigType]);
+    const generated = generateQuickConfig(props, state, configText);
+    return applyMirrorDomainToText(generated, mirrorLine);
+  }, [props, state, configText, quickConfigType, mirrorLine]);
 
   const pomText = useMemo(() => {
     if (type !== 'maven') return '';
-    return generateMavenPom(props, state);
-  }, [props, state, type]);
+    const generated = generateMavenPom(props, state);
+    return applyMirrorDomainToText(generated, mirrorLine);
+  }, [props, state, type, mirrorLine]);
 
   // ── Default file path ──────────────────────────────────────────────
 

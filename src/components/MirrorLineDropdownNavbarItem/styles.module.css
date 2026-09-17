@@ -1,0 +1,60 @@
+.container {
+  vertical-align: middle;
+}
+
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--ifm-navbar-link-color);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--island-radius-sm);
+  transition: background var(--ifm-transition-fast) ease;
+}
+
+.button:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.label {
+  color: var(--ifm-navbar-link-color);
+  font-weight: 600;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.option .domain {
+  font-size: 0.75rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.option:hover {
+  background: var(--ifm-color-emphasis-200);
+  text-decoration: none;
+}
+
+.option.active {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.check {
+  color: var(--ifm-color-primary);
+}
+
+@media screen and (max-width: 996px) {
+  .container {
+    display: none;
+  }
+}

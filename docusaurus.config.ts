@@ -172,6 +172,10 @@ const config: Config = {
           position: 'left',
         },
         {
+          type: 'custom-mirrorLineDropdown',
+          position: 'right',
+        },
+        {
           href: '/help/news/rss.xml',
           label: 'RSS',
           position: 'right',
