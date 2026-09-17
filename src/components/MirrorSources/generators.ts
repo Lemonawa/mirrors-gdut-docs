@@ -404,6 +404,7 @@ export function generateQuickConfig(
   if (quickType === 'maven') {
     const isGlobal = state.globalSettings;
     const effectiveFilePath = isGlobal ? '/etc/maven/settings.xml' : filePath;
+    const s = isGlobal ? 'sudo ' : '';
     const indentedConfig = configText
       .split('\n')
       .map((line) => '        ' + line)
@@ -415,20 +416,28 @@ export function generateQuickConfig(
       '    </mirrors>',
       '</settings>',
     ].join('\n');
-    if (isGlobal) {
-      return [
-        `sudo test -f ${effectiveFilePath} && sudo cp ${effectiveFilePath} ${effectiveFilePath}.bak || true`,
-        `sudo tee ${effectiveFilePath} << 'EOF'`,
-        settingsXml,
-        'EOF',
-      ].join('\n');
-    }
+
+    const mirrorUrl = configText.match(/<url>(.*?)<\/url>/)?.[1] ?? '';
+    const mirrorBlock = [
+      '    <mirror>',
+      '        <id>gdutnic</id>',
+      '        <name>gdutnic maven</name>',
+      `        <url>${mirrorUrl}</url>`,
+      '        <mirrorOf>*</mirrorOf>',
+      '    </mirror>',
+    ].join('\\n');
+    const sedAppend = `${s}sed -i '/<mirrors>/a\\${mirrorBlock}' ${effectiveFilePath}`;
+
     return [
-      `[ -f ${effectiveFilePath} ] && cp ${effectiveFilePath} ${effectiveFilePath}.bak`,
-      'mkdir -p ~/.m2',
-      `cat > ${effectiveFilePath} << 'EOF'`,
+      `if test -f ${effectiveFilePath}; then`,
+      `  ${s}cp ${effectiveFilePath} ${effectiveFilePath}.bak`,
+      `  ${sedAppend}`,
+      `else`,
+      `  ${s}mkdir -p $(dirname ${effectiveFilePath})`,
+      `  ${s}tee ${effectiveFilePath} > /dev/null << 'EOF'`,
       settingsXml,
       'EOF',
+      'fi',
     ].join('\n');
   }
 
