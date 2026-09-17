@@ -70,6 +70,7 @@ export default function MirrorSources(props: MirrorSourcesProps): ReactNode {
   const showProposed = options?.proposed ?? isApt;
   const showSecurity = options?.security ?? isApt;
   const showSudo = options?.sudo ?? false;
+  const showSettingsLevel = options?.settingsLevel ?? type === 'maven';
 
   const quickConfigType = props.quickConfigType ?? (
     isApt ? 'apt' : type === 'yum' ? 'yum' : type === 'maven' ? 'maven' : 'pacman'
@@ -85,12 +86,13 @@ export default function MirrorSources(props: MirrorSourcesProps): ReactNode {
   const [sudo, setSudo] = useState(true);
   const [copied, setCopied] = useState<'config' | 'quick' | null>(null);
   const [wrap, setWrap] = useState<Record<string, boolean>>({});
+  const [globalSettings, setGlobalSettings] = useState(false);
 
   // ── Derived state ──────────────────────────────────────────────────
 
   const state: GenState = useMemo(
-    () => ({version: selectedVersion, https, source, proposed, security, sudo}),
-    [selectedVersion, https, source, proposed, security, sudo],
+    () => ({version: selectedVersion, https, source, proposed, security, sudo, globalSettings}),
+    [selectedVersion, https, source, proposed, security, sudo, globalSettings],
   );
 
   const configText = useMemo(() => {
@@ -130,7 +132,7 @@ export default function MirrorSources(props: MirrorSourcesProps): ReactNode {
         : type === 'yum'
           ? '/etc/yum.repos.d/mirror.repo'
           : type === 'maven'
-            ? '~/.m2/settings.xml'
+            ? (globalSettings ? '/etc/maven/settings.xml' : '~/.m2/settings.xml')
             : '/etc/pacman.d/mirrorlist'
   );
 
@@ -212,6 +214,14 @@ export default function MirrorSources(props: MirrorSourcesProps): ReactNode {
       checked: sudo,
       onChange: setSudo,
       ariaLabel: '使用 sudo 前缀',
+    },
+    {
+      key: 'globalSettings',
+      label: '系统全局配置',
+      show: showSettingsLevel,
+      checked: globalSettings,
+      onChange: setGlobalSettings,
+      ariaLabel: '使用系统全局级配置文件 (/etc/maven/settings.xml)',
     },
   ];
 

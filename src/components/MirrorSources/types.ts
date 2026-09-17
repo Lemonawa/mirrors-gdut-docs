@@ -36,6 +36,8 @@ export interface MirrorSourcesOptions {
   security?: boolean;
   /** Show sudo toggle (default: false) */
   sudo?: boolean;
+  /** Show Maven settings level toggle, user (~/.m2) vs global (/etc/maven) (maven only) */
+  settingsLevel?: boolean;
 }
 
 export interface MirrorSourcesProps {
@@ -82,4 +84,5 @@ export interface GenState {
   proposed: boolean;
   security: boolean;
   sudo: boolean;
+  globalSettings: boolean;
 }

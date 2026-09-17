@@ -47,17 +47,12 @@ Build, Execution, Deployment -> Build Tools -> Maven
 
 ### 在 Maven 中使用
 
-以Maven 3.5.2为例：
+Maven 的 settings.xml 配置文件分为两个级别：
 
-打开maven配置文件
+- **用户级别**：`~/.m2/settings.xml`，仅对当前用户生效（推荐）
+- **系统全局级别**：`/etc/maven/settings.xml`，对所有用户生效（Linux 发行版打包的 Maven，路径随发行版可能为 `$MAVEN_HOME/conf/settings.xml`）
 
-```bash
-vim ./apache-maven-3.5.2/conf/settings.xml
-```
-
-找到`<mirrors></mirrors>`标签节点
-
-添加一个的Mirror子节点：
+通过下方配置选项中的「系统全局配置」开关选择对应级别，生成的配置文件路径与快速配置命令会随之切换：
 
 <MirrorSources
   type="maven"
