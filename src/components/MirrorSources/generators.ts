@@ -403,7 +403,6 @@ export function generateQuickConfig(
 
   if (quickType === 'maven') {
     const isGlobal = state.globalSettings;
-    const effectiveSudo = isGlobal ? 'sudo ' : '';
     const effectiveFilePath = isGlobal ? '/etc/maven/settings.xml' : filePath;
     const indentedConfig = configText
       .split('\n')
@@ -416,17 +415,21 @@ export function generateQuickConfig(
       '    </mirrors>',
       '</settings>',
     ].join('\n');
-    const backupCmd = isGlobal
-      ? `sudo test -f ${effectiveFilePath} && sudo cp ${effectiveFilePath} ${effectiveFilePath}.bak || true`
-      : `[ -f ${effectiveFilePath} ] && cp ${effectiveFilePath} ${effectiveFilePath}.bak`;
-    const commands: string[] = [backupCmd];
-    if (!isGlobal) {
-      commands.push('mkdir -p ~/.m2');
+    if (isGlobal) {
+      return [
+        `sudo test -f ${effectiveFilePath} && sudo cp ${effectiveFilePath} ${effectiveFilePath}.bak || true`,
+        `sudo tee ${effectiveFilePath} << 'EOF'`,
+        settingsXml,
+        'EOF',
+      ].join('\n');
     }
-    commands.push(`${effectiveSudo}cat > ${effectiveFilePath} << 'EOF'`);
-    commands.push(settingsXml);
-    commands.push('EOF');
-    return commands.join('\n');
+    return [
+      `[ -f ${effectiveFilePath} ] && cp ${effectiveFilePath} ${effectiveFilePath}.bak`,
+      'mkdir -p ~/.m2',
+      `cat > ${effectiveFilePath} << 'EOF'`,
+      settingsXml,
+      'EOF',
+    ].join('\n');
   }
 
   // For apt and yum, use tee to write the config
