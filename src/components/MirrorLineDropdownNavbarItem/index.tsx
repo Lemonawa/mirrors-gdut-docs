@@ -42,10 +42,10 @@ export default function MirrorLineDropdownNavbarItem({
   return (
     <div
       ref={dropdownRef}
-      className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', styles.container)}
+      className={clsx('navbar__item', 'dropdown', 'dropdown--right', 'dropdown--hoverable', styles.container)}
       data-mirror-line={line}>
       <button type="button" className={clsx('navbar__link', styles.button)} aria-haspopup="true">
-        <span className={styles.label}>线路选择:</span> {current.label} ▾
+        <span className={styles.label}>线路选择:</span> {current.label}
       </button>
       <ul className="dropdown__menu">
         {MIRROR_LINES.map((l) => (
@@ -54,8 +54,10 @@ export default function MirrorLineDropdownNavbarItem({
               type="button"
               className={clsx('dropdown__link', styles.option, l.key === line && styles.active)}
               onClick={() => setLine(l.key)}>
-              {l.key === line && <span className={styles.check}>✓ </span>}
-              {l.label}
+              <span className={styles.optionHeader}>
+                {l.key === line && <span className={styles.check}>✓</span>}
+                {l.label}
+              </span>
               <span className={styles.domain}>{l.domain}</span>
             </button>
           </li>

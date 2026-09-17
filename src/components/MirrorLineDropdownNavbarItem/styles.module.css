@@ -1,20 +1,37 @@
 .container {
   vertical-align: middle;
+  position: relative;
+}
+
+.container [class*='dropdown__menu'] {
+  left: auto;
+  right: 0;
 }
 
 .button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--ifm-navbar-link-color);
-  padding: 0.3rem 0.6rem;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--island-radius-sm);
-  transition: background var(--ifm-transition-fast) ease;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--ifm-navbar-link-color);
+  padding: 0.35rem 0.75rem;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.button::after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+  border-top: 0.35em solid currentColor;
 }
 
 .button:hover {
-  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-background-surface-color);
 }
 
 .label {
@@ -25,18 +42,27 @@
 .option {
   display: flex;
   flex-direction: column;
+  gap: 2px;
   width: 100%;
   text-align: left;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.4;
+}
+
+.optionHeader {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
 }
 
 .option .domain {
   font-size: 0.75rem;
   color: var(--ifm-color-content-secondary);
+  white-space: nowrap;
 }
 
 .option:hover {
