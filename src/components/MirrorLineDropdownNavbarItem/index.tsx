@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React from 'react';
 import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
@@ -15,19 +15,7 @@ export default function MirrorLineDropdownNavbarItem({
   [key: string]: unknown;
 }): ReactNode {
   const [line, setLine] = useMirrorLine();
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileSidebar = useNavbarMobileSidebar();
-
-  useEffect(() => {
-    if (mobile) return;
-    const handler = (e: MouseEvent) => {
-      if (!dropdownRef.current?.contains(e.target as Node)) {
-        dropdownRef.current?.classList.remove(styles.open);
-      }
-    };
-    document.addEventListener('click', handler);
-    return () => document.removeEventListener('click', handler);
-  }, [mobile]);
 
   if (mobile || mobileSidebar?.shouldRender) {
     return null;
@@ -41,28 +29,33 @@ export default function MirrorLineDropdownNavbarItem({
 
   return (
     <div
-      ref={dropdownRef}
-      className={clsx('navbar__item', 'dropdown', 'dropdown--right', 'dropdown--hoverable', styles.container)}
+      className={clsx('navbar__item', styles.container)}
       data-mirror-line={line}>
-      <button type="button" className={clsx('navbar__link', styles.button)} aria-haspopup="true">
-        <span className={styles.label}>线路选择:</span> {current.label}
-      </button>
-      <ul className="dropdown__menu">
-        {MIRROR_LINES.map((l) => (
-          <li key={l.key}>
-            <button
-              type="button"
-              className={clsx('dropdown__link', styles.option, l.key === line && styles.active)}
-              onClick={() => setLine(l.key)}>
-              <span className={styles.optionHeader}>
-                {l.key === line && <span className={styles.check}>✓</span>}
-                {l.label}
-              </span>
-              <span className={styles.domain}>{l.domain}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <span className={clsx('navbar__link', styles.label)}>线路选择:</span>
+      <div className={clsx('dropdown', 'dropdown--right', styles.dropdown)}>
+        <button
+          type="button"
+          className={clsx(styles.button)}
+          aria-haspopup="true">
+          {current.label}
+        </button>
+        <ul className="dropdown__menu">
+          {MIRROR_LINES.map((l) => (
+            <li key={l.key}>
+              <button
+                type="button"
+                className={clsx('dropdown__link', styles.option, l.key === line && styles.active)}
+                onClick={() => setLine(l.key)}>
+                <span className={styles.optionHeader}>
+                  {l.key === line && <span className={styles.check}>✓</span>}
+                  {l.label}
+                </span>
+                <span className={styles.domain}>{l.domain}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
