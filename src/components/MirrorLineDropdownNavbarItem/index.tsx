@@ -47,8 +47,8 @@ export default function MirrorLineDropdownNavbarItem({
                 className={clsx('dropdown__link', styles.option, l.key === line && styles.active)}
                 onClick={() => setLine(l.key)}>
                 <span className={styles.optionHeader}>
+                  <span>{l.label}</span>
                   {l.key === line && <span className={styles.check}>✓</span>}
-                  {l.label}
                 </span>
                 <span className={styles.domain}>{l.domain}</span>
               </button>
