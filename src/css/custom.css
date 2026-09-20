@@ -585,6 +585,12 @@ body {
   }
 }
 
+/* ── Copy Markdown button anchor ─────────────────────────────────── */
+
+.markdown {
+  position: relative;
+}
+
 /* ── Footer (solid surface, no glass) ─────────────────────────────── */
 
 .footer {

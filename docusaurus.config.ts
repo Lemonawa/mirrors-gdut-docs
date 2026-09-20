@@ -96,6 +96,7 @@ const config: Config = {
         title: '广东工业大学开源镜像站帮助文档',
         description: '开源镜像站使用帮助与配置指南',
         excludeImports: true,
+        generateMarkdownFiles: true,
         docsDir: [
           {path: 'docs', routeBasePath: '/', label: '镜像使用帮助'},
           {path: 'blog', routeBasePath: '/', label: '新闻公告'},

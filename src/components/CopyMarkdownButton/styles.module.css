@@ -1,0 +1,11 @@
+.button {
+  color: var(--ifm-color-content-secondary);
+  font-weight: 500;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.button:hover {
+  color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  background: transparent;
+}
