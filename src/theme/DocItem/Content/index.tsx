@@ -8,11 +8,11 @@ export default function DocItemContentWrapper({
   children: ReactNode;
 }): React.ReactElement {
   return (
-    <>
-      <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: '0.5rem'}}>
-        <CopyMarkdownButton />
-      </div>
+    <div
+      className="copy-markdown-anchor"
+      style={{position: 'relative'}}>
+      <CopyMarkdownButton />
       {children}
-    </>
+    </div>
   );
 }

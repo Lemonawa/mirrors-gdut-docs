@@ -39,10 +39,32 @@ export default function CopyMarkdownButton(): React.ReactElement {
   return (
     <button
       type="button"
-      className={clsx('button', 'button--sm', 'button--outline', styles.button)}
+      className={clsx(styles.button, copied && styles.copied)}
       onClick={handleClick}
       title="以 Markdown 格式复制整篇文章">
-      {copied ? '✓ 已复制 Markdown' : '复制 Markdown'}
+      <svg
+        className={styles.icon}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true">
+        {copied ? (
+          <>
+            <rect width="9" height="9" x="2" y="2" rx="2" />
+            <path d="M14.5 2h4a2 2 0 0 1 2 2v4" />
+            <path d="m5 13 4 4L19 7" />
+          </>
+        ) : (
+          <>
+            <rect width="14" height="14" x="8" y="8" rx="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </>
+        )}
+      </svg>
+      <span>{copied ? '已复制 Markdown' : '复制 Markdown'}</span>
     </button>
   );
 }
