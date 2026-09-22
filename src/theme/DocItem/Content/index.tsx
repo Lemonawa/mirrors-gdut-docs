@@ -12,7 +12,15 @@ export default function DocItemContentWrapper({
     <div
       className="copy-markdown-anchor"
       style={{position: 'relative'}}>
-      <CopyMarkdownButton />
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          zIndex: 2,
+        }}>
+        <CopyMarkdownButton />
+      </div>
       <MDXContent>{children}</MDXContent>
     </div>
   );

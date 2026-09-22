@@ -1,8 +1,4 @@
 .button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -35,7 +31,6 @@
 
 @media screen and (max-width: 768px) {
   .button {
-    position: static;
     margin-bottom: 0.75rem;
   }
 }
