@@ -10,18 +10,27 @@ function addAdmonitionRule(turndown: TurndownService): void {
     filter: (node) => {
       if (node.nodeType !== 1) return false;
       const el = node as HTMLElement;
-      return el.tagName === 'ADMONITION' || el.classList.contains('admonition');
+      return (
+        el.tagName === 'ADMONITION' ||
+        el.classList.contains('admonition') ||
+        el.classList.contains('theme-admonition')
+      );
     },
     replacement: (_content, node) => {
       const el = node as HTMLElement;
       const titleAttr = el.getAttribute('title');
       const titleEl =
         el.querySelector('.admonition-title') ??
-        el.querySelector('[class*="admonitionTitle"]');
+        el.querySelector('[class*="admonitionTitle"]') ??
+        el.querySelector('[class*="admonitionHeading"]');
       const titleText =
         titleAttr ?? titleEl?.textContent?.trim() ?? 'Note';
       const body = el.cloneNode(true) as HTMLElement;
-      titleEl?.remove();
+      body
+        .querySelectorAll(
+          '.admonition-title, [class*="admonitionTitle"], [class*="admonitionHeading"]',
+        )
+        .forEach((n) => n.remove());
       body.removeAttribute('title');
       const inner = turndown.turndown(body.innerHTML);
       return `\n\n> **${titleText}**\n>\n${inner
